@@ -42,6 +42,8 @@
 
     private WordStreamController<WordCollectionData> word_controls { get; } = new(RefreshRate);
 
+    private System.Threading.Timer refresh_timer;
+
     private FindLarge large_words = new FindLarge(5);
     private FindSmall small_words = new FindSmall(5);
     private FindFrequent frequent_words = new FindFrequent(10);
@@ -70,6 +72,19 @@
             word_controls.StartStream().ConfigureAwait(false);
         }
     }
+
+    protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+
+		refresh_timer = new System.Threading.Timer((object x) =>
+		{
+            if (word_controls.GetStreamState() == StreamState.Running) {
+                UpdateDisplayData();
+                StateHasChanged();
+            }
+		}, null, 0, 1000 / RefreshRate);
+	}
 
     private void StopStream()
     {
