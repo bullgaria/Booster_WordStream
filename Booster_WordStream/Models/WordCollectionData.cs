@@ -98,6 +98,11 @@ namespace Booster_WordStream.Models
 
             frequency_char.Clear();
             frequency_word.Clear();
+
+            foreach (var cur_stat in stat_types)
+            {
+                cur_stat.ClearData();
+            }
         }
 
         // Getters
