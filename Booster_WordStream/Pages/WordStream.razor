@@ -21,7 +21,7 @@
         </div>
         <table>
             <tr>
-                <th>Frequent Words</th>
+                <th>Word Frequency</th>
                 <th>Occurances</th>
             </tr>
             @foreach(var word_data in frequent_words.GetWords())
@@ -59,19 +59,15 @@
             }
         </table>
     </div>
-    <div style="align-self: start;max-height: 780px;overflow-y: auto;">
+    <div style="align-self: start; max-height: 780px; overflow-y: auto;">
         <table style="height: 100%;">
             <tr>
-                <th>Position</th>
-                <th>Character Frequencies</th>
+                <th>Character Frequency</th>
                 <th>Occurances</th>
             </tr>
-            @{var char_idx = 0;}
             @foreach(var word_data in GetFrequentChars().Reverse())
             {
-                char_idx++;
                 <tr>
-                    <td>@char_idx</td>
                     <td>@word_data.Item2</td>
                     <td>@word_data.Item1.ToString()</td>
                 </tr>
