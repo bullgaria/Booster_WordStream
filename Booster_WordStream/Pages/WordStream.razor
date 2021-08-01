@@ -6,36 +6,63 @@
 
 <h1>Word Stream</h1>
 
+<br />
+
 <button class="btn btn-primary" @onclick="StartStream">Start Stream</button>
 <button class="btn btn-primary" @onclick="StopStream">Stop Stream</button>
 <button class="btn btn-primary" @onclick="ResetStream">Reset Stream</button>
 
-<p>Num Chars: @stream_chars</p>
-<p>Num Words: @stream_words</p>
+<br />
+<br />
 
-@foreach(var word_data in stream_large_words)
-{
-  <tr>
-     <td>@word_data.Key</td>
-     <td>@word_data.Value.ToString()</td>
-  </tr>
-}
-
-@foreach(var word_data in stream_small_words)
-{
-  <tr>
-     <td>@word_data.Key</td>
-     <td>@word_data.Value.ToString()</td>
-  </tr>
-}
-
-@foreach(var word_data in stream_frequent_words)
-{
-  <tr>
-     <td>@word_data.Key</td>
-     <td>@word_data.Value.ToString()</td>
-  </tr>
-}
+<div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 1fr 1fr;">
+    <div style="display: flex; align-self: start; flex-flow: column; height: 100%;">
+        <div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 1fr 1fr; height: 100%;">
+            <b>Number of Chars: @word_controls.stream_data.GetNumChars()</b>
+            <b>Number of Words: @word_controls.stream_data.GetNumWords()</b>
+        </div>
+        <table>
+            <tr>
+                <th>Frequent Words</th>
+                <th>Occurances</th>
+            </tr>
+            @foreach(var word_data in frequent_words.GetWords())
+            {
+                <tr>
+                    <td>@word_data.Key</td>
+                    <td>@word_data.Value.ToString()</td>
+                </tr>
+            }
+        </table>
+    </div>    
+    <div style="align-self: start; height: 100%;">
+        <table style="height: 100%;">
+            <tr>
+                <th>Large Words</th>
+                <th>Length</th>
+            </tr>
+            @foreach(var word_data in large_words.GetWords())
+            {
+                <tr>
+                    <td>@word_data.Key</td>
+                    <td>@word_data.Value.ToString()</td>
+                </tr>
+            }
+            <br />
+            <tr>
+                <th>Small Words</th>
+                <th>Length</th>
+            </tr>
+            @foreach(var word_data in small_words.GetWords())
+            {
+                <tr>
+                    <td>@word_data.Key</td>
+                    <td>@word_data.Value.ToString()</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
 
 @code {
     private static int RefreshRate = 20;  // FPS
@@ -47,13 +74,6 @@
     private FindLarge large_words = new FindLarge(5);
     private FindSmall small_words = new FindSmall(5);
     private FindFrequent frequent_words = new FindFrequent(10);
-
-    private int stream_chars;
-    private int stream_words;
-
-    private Dictionary<string, int> stream_large_words = new();
-    private Dictionary<string, int> stream_small_words = new();
-    private Dictionary<string, int> stream_frequent_words = new();
 
     private void StartStream()
     {
@@ -80,7 +100,6 @@
 		refresh_timer = new System.Threading.Timer((object x) =>
 		{
             if (word_controls.GetStreamState() == StreamState.Running) {
-                UpdateDisplayData();
                 StateHasChanged();
             }
 		}, null, 0, 1000 / RefreshRate);
@@ -89,24 +108,10 @@
     private void StopStream()
     {
         word_controls.StopStream();
-
-        UpdateDisplayData();
     }
 
     private void ResetStream()
     {
         word_controls.ResetStream();
-
-        UpdateDisplayData();
-    }
-
-    public void UpdateDisplayData()
-    {
-        stream_chars = word_controls.stream_data.GetNumChars();
-        stream_words = word_controls.stream_data.GetNumWords();
-
-        stream_large_words = large_words.GetWords();
-        stream_small_words = small_words.GetWords();
-        stream_frequent_words = frequent_words.GetWords();
     }
 }
