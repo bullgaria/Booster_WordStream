@@ -12,8 +12,8 @@ namespace Booster_WordStream.Models
         private int num_chars;
         private int num_words;
 
-        private Dictionary<string, int> frequency_word = new();
         private Dictionary<char, int> frequency_char = new();
+        private Dictionary<string, int> frequency_word = new();
 
         private List<IWordStats> stat_types = new();
 
@@ -86,6 +86,18 @@ namespace Booster_WordStream.Models
                 // add each word in list
                 this.AddWord(cur_word);
             }
+        }
+
+        /// <summary>
+        /// Clear all word and character data.
+        /// </summary>
+        public void ClearData()
+        {
+            num_chars = 0;
+            num_words = 0;
+
+            frequency_char.Clear();
+            frequency_word.Clear();
         }
 
         // Getters
