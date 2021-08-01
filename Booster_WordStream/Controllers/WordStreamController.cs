@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Booster_WordStream.Models;
 using Booster.CodingTest.Library;
+using System.Threading.Tasks;
 
 namespace Booster_WordStream.Controllers
 {
@@ -14,20 +15,22 @@ namespace Booster_WordStream.Controllers
     public class WordStreamController
     {
         private static int BufferSize = 4096;
+        private int RefreshRate = 60;
 
         private StreamState stream_state = StreamState.Off;
 
         public IWordCollection stream_data { get; init; }
 
-        public WordStreamController(IWordCollection word_collection)
+        public WordStreamController(IWordCollection word_collection, int refresh_rate = 0)
         {
             stream_data = word_collection;
+            if (refresh_rate > 0) RefreshRate = refresh_rate;
         }
 
         /// <summary>
         /// Starts a new stream. New stream data will be added to old one, if any exists.
         /// </summary>
-        public async void StartStream()
+        public async Task StartStream()
         {
             if (stream_state == StreamState.Running) return;
 
@@ -43,6 +46,7 @@ namespace Booster_WordStream.Controllers
                     if (await booster_stream.ReadAsync(buffer, 0, buffer.Length) > 0)
                     {
                         leftovers = ProcessBuffer(buffer, leftovers);
+                        await Task.Delay(1000 / RefreshRate);
                     }
                     else
                     {

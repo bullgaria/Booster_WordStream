@@ -1,18 +1,60 @@
 ﻿@page "/WordStream"
 
+@using Booster_WordStream.Models;
+@using Booster_WordStream.Controllers
+@using Booster_WordStream.Controllers.WordStatistics;
+
 <h1>Word Stream</h1>
+
+<p>Num Chars: @stream_chars</p>
+<p>Num Space: @stream_space</p>
+<p>Num Words: @stream_words</p>
 
 <button class="btn btn-primary" @onclick="StartStream">Start Stream</button>
 <button class="btn btn-primary" @onclick="StopStream">Stop Stream</button>
 
 @code {
+    private static int RefreshRate = 20;  // FPS
+
+    private WordStreamController word_controls { get; } = new(new WordCollectionData(), RefreshRate);
+
+    //private FindLarge large_words = new FindLarge(5);
+    //private FindSmall small_words = new FindSmall(5);
+    //private FindFrequent frequent_words = new FindFrequent(10);
+
+    public int stream_space { get; protected set; }
+    public int stream_chars { get; protected set; }
+    public int stream_words { get; protected set; }
+
     private void StartStream()
     {
+        var cur_stream_state = word_controls.GetStreamState();
+        if (cur_stream_state == StreamState.Running) return;
 
+        if (cur_stream_state == StreamState.Off) {
+            // add word stats controllers
+            //word_controls.stream_data.AddStat(ref large_words);
+            //word_controls.stream_data.AddStat(ref small_words);
+            //word_controls.stream_data.AddStat(ref frequent_words);
+
+            word_controls.StartStream().ConfigureAwait(false);
+        }
+        else if (cur_stream_state == StreamState.Stopped) {
+            word_controls.StartStream().ConfigureAwait(false);
+        }
     }
 
     private void StopStream()
     {
+        word_controls.StopStream();
 
+        UpdateDisplayData();
+    }
+
+    public void UpdateDisplayData()
+    {
+        stream_chars = word_controls.stream_data.GetNumChars();
+        stream_space = word_controls.stream_data.GetNumSpace();
+        stream_words = word_controls.stream_data.GetNumWords();
     }
 }

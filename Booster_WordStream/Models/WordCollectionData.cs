@@ -9,9 +9,9 @@ namespace Booster_WordStream.Models
     /// </summary>
     public class WordCollectionData : IWordCollection
     {
-        public int num_space { get; protected set; }
-        public int num_chars { get; protected set; }
-        public int num_words { get; protected set; }
+        private int num_space;
+        private int num_chars;
+        private int num_words;
 
         private Dictionary<string, int> frequency_word = new();
         private Dictionary<char, int> frequency_char = new();
@@ -89,5 +89,10 @@ namespace Booster_WordStream.Models
                 this.AddWord(cur_word);
             }
         }
+
+        // Getters
+        public int GetNumSpace() => this.num_space;
+        public int GetNumChars() => this.num_chars;
+        public int GetNumWords() => this.num_words;
     }
 }
