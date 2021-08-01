@@ -108,5 +108,7 @@ namespace Booster_WordStream.Models
         // Getters
         public int GetNumChars() => this.num_chars;
         public int GetNumWords() => this.num_words;
+        public Dictionary<char, int> GetCharFrequency() => this.frequency_char;
+        public Dictionary<string, int> GetWordFrequency() => this.frequency_word;
     }
 }

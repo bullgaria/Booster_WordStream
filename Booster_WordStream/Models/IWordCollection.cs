@@ -14,5 +14,7 @@ namespace Booster_WordStream.Models
 
         int GetNumChars();
         int GetNumWords();
+        Dictionary<char, int> GetCharFrequency();
+        Dictionary<string, int> GetWordFrequency();
     }
 }
