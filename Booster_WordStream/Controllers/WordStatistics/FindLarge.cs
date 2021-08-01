@@ -44,7 +44,7 @@ namespace Booster_WordStream.Controllers.WordStatistics
         {
             int word_len = word_in.Count();
 
-            // just add to the dictionary
+            // just add word if list is not full yet
             if (num_words < max_words)
             {
                 num_words++;
@@ -55,11 +55,11 @@ namespace Booster_WordStream.Controllers.WordStatistics
             else
             {
                 // only do anything if larger than smallest word
-                var first_len = words_sorted.First();
-                if (word_len > first_len.Item1)
+                var old_word = words_sorted.First();
+                if (word_len > old_word.Item1)
                 {
                     // remove the old word
-                    words_sorted.Remove(first_len);
+                    words_sorted.Remove(old_word);
 
                     // add the new word
                     words_sorted.Add((word_len, word_in));
