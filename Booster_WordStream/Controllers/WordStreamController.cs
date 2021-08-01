@@ -13,7 +13,8 @@ namespace Booster_WordStream.Controllers
         Running = 2
     }
 
-    public class WordStreamController
+    public class WordStreamController<T>
+        where T: IWordCollection, new()
     {
         private static char[] WordSeparators = { ' ', '.', '\t', '\n', '\r' };
         private static int BufferSize = 4096;
@@ -22,11 +23,10 @@ namespace Booster_WordStream.Controllers
 
         private StreamState stream_state = StreamState.Off;
 
-        public IWordCollection stream_data { get; init; }
+        public T stream_data { get; } = new();
 
-        public WordStreamController(IWordCollection word_collection, int refresh_rate = 0)
+        public WordStreamController(int refresh_rate = 0)
         {
-            stream_data = word_collection;
             if (refresh_rate > 0) RefreshRate = refresh_rate;
         }
 
@@ -69,11 +69,21 @@ namespace Booster_WordStream.Controllers
         /// <returns>Returns true if the stream was successfully stopped.</returns>
         public bool StopStream()
         {
-            // prevent multiple streams from running
+            // stream is not running
             if (stream_state != StreamState.Running) return false;
 
             stream_state = StreamState.Stopped;
             return true;
+        }
+
+        /// <summary>
+        /// Stop the stream and reset current stream data.
+        /// </summary>
+        /// <returns>Returns true if the stream was successfully stopped.</returns>
+        public void ResetStream()
+        {
+            StopStream();
+            stream_data.ClearData();
         }
 
         /// <summary>
