@@ -10,6 +10,22 @@
 <p>Num Space: @stream_space</p>
 <p>Num Words: @stream_words</p>
 
+@foreach(var word_data in stream_large_words)
+{
+  <tr>
+     <td>@word_data.Key</td>
+     <td>@word_data.Value.ToString()</td>
+  </tr>
+}
+
+@foreach(var word_data in stream_small_words)
+{
+  <tr>
+     <td>@word_data.Key</td>
+     <td>@word_data.Value.ToString()</td>
+  </tr>
+}
+
 <button class="btn btn-primary" @onclick="StartStream">Start Stream</button>
 <button class="btn btn-primary" @onclick="StopStream">Stop Stream</button>
 
@@ -18,13 +34,17 @@
 
     private WordStreamController word_controls { get; } = new(new WordCollectionData(), RefreshRate);
 
-    //private FindLarge large_words = new FindLarge(5);
-    //private FindSmall small_words = new FindSmall(5);
+    private FindLarge large_words = new FindLarge(5);
+    private FindSmall small_words = new FindSmall(5);
     //private FindFrequent frequent_words = new FindFrequent(10);
 
-    public int stream_space { get; protected set; }
-    public int stream_chars { get; protected set; }
-    public int stream_words { get; protected set; }
+    private int stream_space;
+    private int stream_chars;
+    private int stream_words;
+
+    private Dictionary<string, int> stream_large_words = new();
+    private Dictionary<string, int> stream_small_words = new();
+    //private Dictionary<string, int> stream_frequent_words = new();
 
     private void StartStream()
     {
@@ -33,8 +53,8 @@
 
         if (cur_stream_state == StreamState.Off) {
             // add word stats controllers
-            //word_controls.stream_data.AddStat(ref large_words);
-            //word_controls.stream_data.AddStat(ref small_words);
+            word_controls.stream_data.AddStat(ref large_words);
+            word_controls.stream_data.AddStat(ref small_words);
             //word_controls.stream_data.AddStat(ref frequent_words);
 
             word_controls.StartStream().ConfigureAwait(false);
@@ -56,5 +76,9 @@
         stream_chars = word_controls.stream_data.GetNumChars();
         stream_space = word_controls.stream_data.GetNumSpace();
         stream_words = word_controls.stream_data.GetNumWords();
+
+        stream_large_words = large_words.GetWords();
+        stream_small_words = small_words.GetWords();
+        //stream_frequent_words = frequent_words.GetWords();
     }
 }
