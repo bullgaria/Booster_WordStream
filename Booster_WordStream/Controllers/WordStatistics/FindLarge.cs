@@ -37,6 +37,12 @@ namespace Booster_WordStream.Controllers.WordStatistics
             }
         }
 
+        public void ClearData()
+        {
+            num_words = 0;
+            words_sorted.Clear();
+        }
+
         /// <summary>
         /// Update the list of largest words with the new word.
         /// </summary>

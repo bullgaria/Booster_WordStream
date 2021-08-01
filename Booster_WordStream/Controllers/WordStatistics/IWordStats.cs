@@ -8,6 +8,8 @@ namespace Booster_WordStream.Controllers.WordStatistics
 
         void SetWordDict(ref Dictionary<string, int> word_dict);
 
+        void ClearData();
+
         Dictionary<string, int> GetWords();
     }
 }

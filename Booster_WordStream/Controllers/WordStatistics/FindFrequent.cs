@@ -34,6 +34,13 @@ namespace Booster_WordStream.Controllers.WordStatistics
             UpdateWords(word_in);
         }
 
+        public void ClearData()
+        {
+            num_words = 0;
+            words_most_frequent.Clear();
+            words_sorted.Clear();
+        }
+
         /// <summary>
         /// Update the list of most frequent words with the new word.
         /// </summary>
@@ -44,9 +51,10 @@ namespace Booster_WordStream.Controllers.WordStatistics
             // if already one of the most frequent words, just update that
             if (words_most_frequent.ContainsKey(word_in))
             {
-                words_most_frequent[word_in] = cur_freq;
-                words_sorted.TryGetValue((cur_freq, word_in), out var cur_word);
+                var old_freq = words_most_frequent[word_in];
+                words_sorted.TryGetValue((old_freq, word_in), out var cur_word);
                 cur_word.Item1 = cur_freq;
+                words_most_frequent[word_in] = cur_freq;
             }
             // just add word if list is not full yet
             else if (num_words < max_words)
@@ -55,6 +63,7 @@ namespace Booster_WordStream.Controllers.WordStatistics
 
                 // add the new word
                 words_sorted.Add((cur_freq, word_in));
+                words_most_frequent[word_in] = cur_freq;
             }
             else
             {
