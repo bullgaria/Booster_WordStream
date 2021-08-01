@@ -10,7 +10,6 @@ namespace Booster_WordStream.Models
         void AddWord(string in_word);
         void AddWords(List<string> word_data);
 
-        int GetNumSpace();
         int GetNumChars();
         int GetNumWords();
     }

@@ -9,7 +9,6 @@ namespace Booster_WordStream.Models
     /// </summary>
     public class WordCollectionData : IWordCollection
     {
-        private int num_space;
         private int num_chars;
         private int num_words;
 
@@ -36,7 +35,6 @@ namespace Booster_WordStream.Models
         {
             // add char count
             num_chars += in_str.Count();
-            num_space += in_str.Where((c) => c == ' ').Count();  // NOTE: is whitespace counted?
 
             foreach (var cur_char in in_str)
             {
@@ -91,7 +89,6 @@ namespace Booster_WordStream.Models
         }
 
         // Getters
-        public int GetNumSpace() => this.num_space;
         public int GetNumChars() => this.num_chars;
         public int GetNumWords() => this.num_words;
     }

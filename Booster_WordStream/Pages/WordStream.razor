@@ -7,7 +7,6 @@
 <h1>Word Stream</h1>
 
 <p>Num Chars: @stream_chars</p>
-<p>Num Space: @stream_space</p>
 <p>Num Words: @stream_words</p>
 
 @foreach(var word_data in stream_large_words)
@@ -46,7 +45,6 @@
     private FindSmall small_words = new FindSmall(5);
     private FindFrequent frequent_words = new FindFrequent(10);
 
-    private int stream_space;
     private int stream_chars;
     private int stream_words;
 
@@ -82,7 +80,6 @@
     public void UpdateDisplayData()
     {
         stream_chars = word_controls.stream_data.GetNumChars();
-        stream_space = word_controls.stream_data.GetNumSpace();
         stream_words = word_controls.stream_data.GetNumWords();
 
         stream_large_words = large_words.GetWords();
