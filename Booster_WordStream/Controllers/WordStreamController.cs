@@ -1,7 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Booster_WordStream.Models;
 using Booster.CodingTest.Library;
-using System.Threading.Tasks;
 
 namespace Booster_WordStream.Controllers
 {
@@ -14,7 +15,9 @@ namespace Booster_WordStream.Controllers
 
     public class WordStreamController
     {
+        private static char[] WordSeparators = { ' ', '.', '\t', '\n', '\r' };
         private static int BufferSize = 4096;
+
         private int RefreshRate = 60;
 
         private StreamState stream_state = StreamState.Off;
@@ -93,10 +96,10 @@ namespace Booster_WordStream.Controllers
 
             // prefix words with partial word, if any
             buffer_str = (partial_word ?? string.Empty) + buffer_str;
-            var word_data = buffer_str.Split(' ').ToList();
+            var word_data = buffer_str.Split(WordSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            // if the last character was not a space, this is probably a partial word - remove unless needed
-            if (buffer_str.Last() != ' ')
+            // if the last character was not a separator, this is probably a partial word
+            if (!WordSeparators.Contains(buffer_str.Last()))
             {
                 partial_word = word_data.Last();
                 word_data.RemoveAt(word_data.Count() - 1);
