@@ -10,4 +10,13 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Booster.CodingTest.Library">
+      <HintPath>resources\Booster.CandidatePack\Booster.CodingTest.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="NLipsum.Core">
+      <HintPath>resources\Booster.CandidatePack\NLipsum.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
