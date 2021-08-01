@@ -6,8 +6,6 @@
 
 <h1>Word Stream</h1>
 
-<br />
-
 <button class="btn btn-primary" @onclick="StartStream">Start Stream</button>
 <button class="btn btn-primary" @onclick="StopStream">Stop Stream</button>
 <button class="btn btn-primary" @onclick="ResetStream">Reset Stream</button>
@@ -15,7 +13,7 @@
 <br />
 <br />
 
-<div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 4fr 3fr 3fr;">
+<div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 1fr 1fr;">
     <div style="display: flex; align-self: start; flex-flow: column; height: 100%;">
         <div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 1fr 1fr; height: 100%;">
             <b>Number of Chars: @word_controls.stream_data.GetNumChars()</b>
@@ -34,9 +32,8 @@
                 </tr>
             }
         </table>
-    </div>    
-    <div style="align-self: start; height: 100%;">
-        <table style="height: 100%;">
+        <br />
+        <table>
             <tr>
                 <th>Large Words</th>
                 <th>Length</th>
@@ -62,7 +59,7 @@
             }
         </table>
     </div>
-    <div style="align-self: start;max-height: 520px;overflow-y: auto;">
+    <div style="align-self: start;max-height: 780px;overflow-y: auto;">
         <table style="height: 100%;">
             <tr>
                 <th>Position</th>

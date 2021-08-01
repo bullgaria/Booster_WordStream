@@ -39,11 +39,12 @@ table {
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding: 2px;
 }
 
 th {
     background-color: #dddddd;
+    padding: 6px;
 }
 
 #blazor-error-ui {
