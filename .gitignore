@@ -1,0 +1,4 @@
+﻿# VS and compiled code
+bin/
+obj/
+.vs/
