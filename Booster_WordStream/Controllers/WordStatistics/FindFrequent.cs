@@ -52,8 +52,8 @@ namespace Booster_WordStream.Controllers.WordStatistics
             if (words_most_frequent.ContainsKey(word_in))
             {
                 var old_freq = words_most_frequent[word_in];
-                words_sorted.TryGetValue((old_freq, word_in), out var cur_word);
-                cur_word.Item1 = cur_freq;
+                words_sorted.Remove((old_freq, word_in));
+                words_sorted.Add((cur_freq, word_in));
                 words_most_frequent[word_in] = cur_freq;
             }
             // just add word if list is not full yet
