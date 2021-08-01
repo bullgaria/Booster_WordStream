@@ -1,4 +1,6 @@
-﻿# VS and compiled code
+﻿# compiled code
 bin/
 obj/
+# VS files
 .vs/
+*.user
