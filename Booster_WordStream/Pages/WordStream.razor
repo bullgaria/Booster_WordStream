@@ -15,7 +15,7 @@
 <br />
 <br />
 
-<div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 1fr 1fr;">
+<div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 4fr 3fr 3fr;">
     <div style="display: flex; align-self: start; flex-flow: column; height: 100%;">
         <div style="display: grid; align-items: center; grid-gap: 10px; grid-auto-flow: column; grid-template-columns: 1fr 1fr; height: 100%;">
             <b>Number of Chars: @word_controls.stream_data.GetNumChars()</b>
@@ -58,6 +58,25 @@
                 <tr>
                     <td>@word_data.Key</td>
                     <td>@word_data.Value.ToString()</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div style="align-self: start;max-height: 520px;overflow-y: auto;">
+        <table style="height: 100%;">
+            <tr>
+                <th>Position</th>
+                <th>Character Frequencies</th>
+                <th>Occurances</th>
+            </tr>
+            @{var char_idx = 0;}
+            @foreach(var word_data in GetFrequentChars().Reverse())
+            {
+                char_idx++;
+                <tr>
+                    <td>@char_idx</td>
+                    <td>@word_data.Item2</td>
+                    <td>@word_data.Item1.ToString()</td>
                 </tr>
             }
         </table>
@@ -113,5 +132,10 @@
     private void ResetStream()
     {
         word_controls.ResetStream();
+    }
+
+    private SortedSet<(int, char)> GetFrequentChars()
+    {
+        return new SortedSet<(int, char)>(word_controls.stream_data.GetCharFrequency().Select((x) => (x.Value, x.Key)));
     }
 }
