@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Booster_WordStream.Models;
 using Booster.CodingTest.Library;
+using System.Collections.Generic;
 
 namespace Booster_WordStream.Controllers
 {
@@ -16,7 +17,6 @@ namespace Booster_WordStream.Controllers
     public class WordStreamController<T>
         where T: IWordCollection, new()
     {
-        private static char[] WordSeparators = { ' ', '.', ',', '\t', '\n', '\r' };
         private static int BufferSize = 4096;
 
         private int RefreshRate = 60;
@@ -80,7 +80,6 @@ namespace Booster_WordStream.Controllers
         /// <summary>
         /// Stop the stream and reset current stream data.
         /// </summary>
-        /// <returns>Returns true if the stream was successfully stopped.</returns>
         public void ResetStream()
         {
             StopStream();
@@ -105,22 +104,41 @@ namespace Booster_WordStream.Controllers
             // process char statistics
             stream_data.AddString(buffer_str);
 
+            var word_data = WordStreamController.ProcessWords(buffer_str, out var leftovers, partial_word);
+
+            // process word statistics
+            stream_data.AddWords(word_data);
+
+            return leftovers;
+        }
+    }
+
+    public static class WordStreamController
+    {
+        private static char[] WordSeparators = { ' ', '.', ',', '\t', '\n', '\r' };
+
+        /// <summary>
+        /// Read in the buffer and add it to the stream data, splitting words on spaces.
+        /// </summary>
+        /// <param name="buffer_str">The current buffer string.</param>
+        /// <param name="leftovers">(out) Any new leftover words at end of current buffer.</param>
+        /// <param name="partial_word">(optional) Previously leftover words, to which the incoming buffer data will be appended.</param>
+        /// <returns>The list of word, split on word separators.</returns>
+        public static List<string> ProcessWords(string buffer_str, out string leftovers, string partial_word = null)
+        {
             // prefix words with partial word, if any
             buffer_str = (partial_word ?? string.Empty) + buffer_str;
             var word_data = buffer_str.Split(WordSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             // if the last character was not a separator, this is probably a partial word - return leftovers
-            string leftovers = null;
+            leftovers = null;
             if (!WordSeparators.Contains(buffer_str.Last()))
             {
                 leftovers = word_data.Last();
                 word_data.RemoveAt(word_data.Count() - 1);
             }
 
-            // process word statistics
-            stream_data.AddWords(word_data);
-
-            return leftovers;
+            return word_data;
         }
     }
 }
