@@ -10,6 +10,6 @@ namespace Booster_WordStream.Controllers.WordStatistics
 
         void ClearData();
 
-        Dictionary<string, int> GetWords();
+        Dictionary<string, int> GetWords(bool descending = false);
     }
 }

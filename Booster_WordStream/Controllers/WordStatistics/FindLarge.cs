@@ -23,9 +23,16 @@ namespace Booster_WordStream.Controllers.WordStatistics
             this.word_frequencies = word_dict;
         }
 
-        public Dictionary<string, int> GetWords()
+        public Dictionary<string, int> GetWords(bool descending = false)
         {
-            return words_sorted.Reverse().ToDictionary((x) => x.Item2, (x) => x.Item1);
+            if (descending)
+            {
+                return words_sorted.Reverse().ToDictionary((x) => x.Item2, (x) => x.Item1);
+            }
+            else
+            {
+                return words_sorted.ToDictionary((x) => x.Item2, (x) => x.Item1);
+            }
         }
 
         public void AddWord(string word_in)

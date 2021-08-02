@@ -26,7 +26,7 @@
                 <th>Word Frequency</th>
                 <th>Occurances</th>
             </tr>
-            @foreach(var word_data in frequent_words.GetWords())
+            @foreach(var word_data in frequent_words.GetWords(true))
             {
                 <tr>
                     <td>@word_data.Key</td>
@@ -38,7 +38,7 @@
                 <th>Large Words</th>
                 <th>Length</th>
             </tr>
-            @foreach(var word_data in large_words.GetWords())
+            @foreach(var word_data in large_words.GetWords(true))
             {
                 <tr>
                     <td>@word_data.Key</td>
@@ -50,7 +50,7 @@
                 <th>Small Words</th>
                 <th>Length</th>
             </tr>
-            @foreach(var word_data in small_words.GetWords())
+            @foreach(var word_data in small_words.GetWords(false))
             {
                 <tr>
                     <td>@word_data.Key</td>
@@ -65,7 +65,7 @@
                 <th>Character Frequency</th>
                 <th>Occurances</th>
             </tr>
-            @foreach(var word_data in GetFrequentChars().Reverse())
+            @foreach(var word_data in GetFrequentChars(true))
             {
                 <tr>
                     <td>@word_data.Item2</td>
@@ -127,8 +127,20 @@
         word_controls.ResetStream();
     }
 
-    private SortedSet<(int, char)> GetFrequentChars()
+    // Internal method for sorting character frequency
+    private IEnumerable<(int, char)> GetFrequentChars(bool descending = false)
     {
-        return new SortedSet<(int, char)>(word_controls.stream_data.GetCharFrequency().Select((x) => (x.Value, x.Key)));
+        // convert the Dictionary<char, int> data into (int, char) tuples.
+        var flipped_data = word_controls.stream_data.GetCharFrequency().Select((x) => (x.Value, x.Key));
+        var result_data = new SortedSet<(int, char)>(flipped_data);
+
+        if (descending)
+        {
+            return (result_data.Reverse());
+        }
+        else
+        {
+            return result_data;
+        }
     }
 }
