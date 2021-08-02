@@ -16,7 +16,7 @@ namespace Booster_WordStream.Controllers
     public class WordStreamController<T>
         where T: IWordCollection, new()
     {
-        private static char[] WordSeparators = { ' ', '.', '\t', '\n', '\r' };
+        private static char[] WordSeparators = { ' ', '.', ',', '\t', '\n', '\r' };
         private static int BufferSize = 4096;
 
         private int RefreshRate = 60;
