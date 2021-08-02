@@ -48,10 +48,9 @@ namespace Booster_WordStream.Controllers
                 {
                     if (await booster_stream.ReadAsync(buffer, 0, buffer.Length) > 0)
                     {
-                        var buffer_task = Task.Run(() => ProcessBuffer(buffer, leftovers));
-                        // blazor wasm only runs on one task, so a delay is needed to allow UI updates
-                        await Task.WhenAll(buffer_task, Task.Delay(1000 / RefreshRate));
-                        leftovers = await buffer_task;
+                        leftovers = ProcessBuffer(buffer, leftovers);
+                        // blazor WASM only runs on one thread, so a delay is needed to allow UI updates
+                        await Task.Delay(1000 / RefreshRate);
                     }
                     else
                     {
