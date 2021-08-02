@@ -109,17 +109,18 @@ namespace Booster_WordStream.Controllers
             buffer_str = (partial_word ?? string.Empty) + buffer_str;
             var word_data = buffer_str.Split(WordSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            // if the last character was not a separator, this is probably a partial word
+            // if the last character was not a separator, this is probably a partial word - return leftovers
+            string leftovers = null;
             if (!WordSeparators.Contains(buffer_str.Last()))
             {
-                partial_word = word_data.Last();
+                leftovers = word_data.Last();
                 word_data.RemoveAt(word_data.Count() - 1);
             }
 
             // process word statistics
             stream_data.AddWords(word_data);
 
-            return partial_word;
+            return leftovers;
         }
     }
 }
