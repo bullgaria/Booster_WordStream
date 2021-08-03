@@ -22,7 +22,7 @@ namespace Booster_WordStream.Models
         /// Add a word statistic, to be maintainted when AddWord is called.
         /// </summary>
         /// <typeparam name="T">IWordStats</typeparam>
-        public void AddStat<T>(ref T word_stat)
+        public bool AddStat<T>(ref T word_stat)
             where T : IWordStats
         {
             // allow only one instance of a particular object
@@ -30,7 +30,28 @@ namespace Booster_WordStream.Models
             {
                 word_stat.SetWordDict(ref frequency_word);
                 stat_types.Add(word_stat);
+
+                return true;
             }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Remove a word statistic.
+        /// </summary>
+        /// <typeparam name="T">IWordStats</typeparam>
+        public bool RemoveStat<T>(ref T word_stat)
+            where T : IWordStats
+        {
+            if (stat_types.Contains(word_stat))
+            {
+                stat_types.Remove(word_stat);
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

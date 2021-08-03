@@ -5,7 +5,7 @@ namespace Booster_WordStream.Models
 {
     public interface IWordCollection
     {
-        public void AddStat<T>(ref T word_stat) where T : IWordStats;
+        public bool AddStat<T>(ref T word_stat) where T : IWordStats;
 
         void AddString(string in_str);
         void AddWord(string in_word);
