@@ -30,7 +30,7 @@ namespace Booster_Tests.WordStream
         {
             // set initial state
             word_collection.ClearData();
-            word_collection.SetIgnoreCase(true);
+            word_collection.SetIgnoreWordCase(true);
 
             // first word
             word_collection.AddWord("this");
@@ -45,7 +45,7 @@ namespace Booster_Tests.WordStream
             Assert.Single(word_collection.GetWordFrequency());
 
             // words with the same case should be counted now
-            word_collection.SetIgnoreCase(false);
+            word_collection.SetIgnoreWordCase(false);
 
             // second word
             word_collection.AddWord("that");

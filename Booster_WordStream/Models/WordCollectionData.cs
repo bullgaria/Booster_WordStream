@@ -11,7 +11,7 @@ namespace Booster_WordStream.Models
         private int num_chars;
         private int num_words;
 
-        private bool ignore_case = true;
+        private bool ignore_word_case = true;
 
         private Dictionary<char, int> frequency_char = new();
         private Dictionary<string, int> frequency_word = new();
@@ -59,7 +59,7 @@ namespace Booster_WordStream.Models
             // add word count
             num_words += 1;
 
-            if (ignore_case == true)
+            if (ignore_word_case == true)
             {
                 // convert words to lowercase
                 in_word = in_word.ToLower();
@@ -116,9 +116,9 @@ namespace Booster_WordStream.Models
         /// Specify if word collection should be case sensitive.
         ///   - by default words are stored in lowercase
         /// </summary>
-        public void SetIgnoreCase(bool new_val)
+        public void SetIgnoreWordCase(bool new_val)
         {
-            ignore_case = new_val;
+            ignore_word_case = new_val;
         }
 
         // Getters
