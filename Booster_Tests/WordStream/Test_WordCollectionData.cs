@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Xunit;
+﻿using Xunit;
+using Booster_WordStream.Models;
 
 namespace Booster_Tests.WordStream
 {
     public class Test_WordCollectionData
     {
-        private Booster_WordStream.Models.WordCollectionData word_collection = new();
+        private WordCollectionData word_collection = new();
 
         /// <summary>
         /// ClearData functions properly resets all data.
