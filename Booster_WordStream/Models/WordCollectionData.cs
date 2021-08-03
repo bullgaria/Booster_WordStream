@@ -16,7 +16,7 @@ namespace Booster_WordStream.Models
         private Dictionary<char, int> frequency_char = new();
         private Dictionary<string, int> frequency_word = new();
 
-        private List<IWordStats> stat_types = new();
+        private HashSet<IWordStats> stat_types = new();
 
         /// <summary>
         /// Add a word statistic, to be maintainted when AddWord is called.
@@ -25,8 +25,12 @@ namespace Booster_WordStream.Models
         public void AddStat<T>(ref T word_stat)
             where T : IWordStats
         {
-            word_stat.SetWordDict(ref frequency_word);
-            stat_types.Add(word_stat);
+            // allow only one instance of a particular object
+            if (!stat_types.Contains(word_stat))
+            {
+                word_stat.SetWordDict(ref frequency_word);
+                stat_types.Add(word_stat);
+            }
         }
 
         /// <summary>
