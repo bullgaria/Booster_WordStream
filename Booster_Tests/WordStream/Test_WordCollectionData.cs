@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using Booster_WordStream.Models;
+using Booster_WordStream.Controllers.WordStatistics;
 
 namespace Booster_Tests.WordStream
 {
@@ -20,6 +21,31 @@ namespace Booster_Tests.WordStream
             Assert.Equal(0, word_collection.GetNumWords());
             Assert.Empty(word_collection.GetCharFrequency());
             Assert.Empty(word_collection.GetWordFrequency());
+        }
+
+        /// <summary>
+        /// ClearData functions properly resets all data.
+        /// </summary>
+        [Fact]
+        public void Collection_WordStat()
+        {
+            // set initial state
+            word_collection.ClearData();
+
+            FindFrequent frequent_words1 = new FindFrequent(5);
+            FindFrequent frequent_words2 = new FindFrequent(5);
+            FindFrequent frequent_words3 = new FindFrequent(5);
+
+            // check adding stats
+            Assert.True(word_collection.AddStat(ref frequent_words1));  // new
+            Assert.True(word_collection.AddStat(ref frequent_words2));  // new
+            Assert.False(word_collection.AddStat(ref frequent_words1));  // duplicate
+
+            // check removing stats
+            Assert.True(word_collection.RemoveStat(ref frequent_words1));
+            Assert.True(word_collection.RemoveStat(ref frequent_words2));
+            Assert.False(word_collection.RemoveStat(ref frequent_words3));  // not in list
+            Assert.False(word_collection.RemoveStat(ref frequent_words1));  // already removed
         }
 
         /// <summary>
