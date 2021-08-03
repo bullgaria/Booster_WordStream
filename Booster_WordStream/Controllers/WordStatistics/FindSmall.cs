@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Booster_WordStream.Controllers.WordStatistics
 {
@@ -55,7 +53,7 @@ namespace Booster_WordStream.Controllers.WordStatistics
         /// </summary>
         private void UpdateWords(string word_in)
         {
-            int word_len = word_in.Count();
+            int word_len = word_in.Length;
 
             // just add word if list is not full yet
             if (num_words < max_words)

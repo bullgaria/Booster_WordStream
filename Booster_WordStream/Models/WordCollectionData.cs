@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Booster_WordStream.Controllers.WordStatistics;
 
 namespace Booster_WordStream.Models
@@ -36,7 +35,7 @@ namespace Booster_WordStream.Models
         public void AddString(string in_str)
         {
             // add char count
-            num_chars += in_str.Count();
+            num_chars += in_str.Length;
 
             foreach (var cur_char in in_str)
             {

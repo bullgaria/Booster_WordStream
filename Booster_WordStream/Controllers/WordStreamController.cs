@@ -135,7 +135,7 @@ namespace Booster_WordStream.Controllers
             if (!WordSeparators.Contains(buffer_str.Last()))
             {
                 leftovers = word_data.Last();
-                word_data.RemoveAt(word_data.Count() - 1);
+                word_data.RemoveAt(word_data.Count - 1);
             }
 
             return word_data;
