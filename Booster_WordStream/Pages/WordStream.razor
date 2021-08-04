@@ -29,8 +29,8 @@
             @foreach(var word_data in frequent_words.GetWords(true))
             {
                 <tr>
-                    <td>@word_data.Key</td>
-                    <td>@word_data.Value.ToString()</td>
+                    <td>@word_data.Item2</td>
+                    <td>@word_data.Item1.ToString()</td>
                 </tr>
             }
             <br />
@@ -41,8 +41,8 @@
             @foreach(var word_data in large_words.GetWords(true))
             {
                 <tr>
-                    <td>@word_data.Key</td>
-                    <td>@word_data.Value.ToString()</td>
+                    <td>@word_data.Item2</td>
+                    <td>@word_data.Item1.ToString()</td>
                 </tr>
             }
             <br />
@@ -53,8 +53,8 @@
             @foreach(var word_data in small_words.GetWords(false))
             {
                 <tr>
-                    <td>@word_data.Key</td>
-                    <td>@word_data.Value.ToString()</td>
+                    <td>@word_data.Item2</td>
+                    <td>@word_data.Item1.ToString()</td>
                 </tr>
             }
         </table>
